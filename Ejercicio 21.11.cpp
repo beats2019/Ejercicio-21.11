@@ -4,11 +4,13 @@ using namespace std;
 string charToBits(unsigned char);
 void printBits(unsigned);
 unsigned maskCharacters(unsigned char, unsigned char);
+void unmaskCharacters(unsigned);
+
 
 int main()
 {
-    unsigned temp = maskCharacters('a', 'b');
-    printBits(temp);
+    unsigned maskedNumber = maskCharacters('A', 'B');
+    unmaskCharacters(maskedNumber);
 }
 
 
@@ -29,9 +31,25 @@ unsigned maskCharacters(unsigned char value1, unsigned char value2)
     return strtoul(&result[0],nullptr,2);
 }
 
+/*
+    Prints the individual characters that are contained in the mask
+
+    @param mask The unsigned value that contains the characters
+*/
+void unmaskCharacters(unsigned mask)
+{
+    //65280 in binary = 00000000 00000000 11111111 00000000
+    char resultCharacter1 = (mask & 65280)>>8;
+    //255 in binary = 00000000 00000000 00000000 11111111
+    char resultCharacter2 = mask & 255;
+    cout << "Mask = "; printBits(mask);
+    cout << "\nCharacter 1 = " << resultCharacter1 << endl
+        << "Character 2 = " << resultCharacter2 << endl;
+}
+
 
 /*
-    Returns a string containing the bits of a given char
+    Returns a string containing the 8 bits of a given char
 
     @param givenCharacter The character to be converted to binary
     @return The binary form of value
